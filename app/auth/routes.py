@@ -15,17 +15,16 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Подключение к базе данных и проверка пользователя
+        # подключение к базе данных и проверка пользователя
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM users WHERE login = ? AND password = ?', (username, password)).fetchone()
         conn.close()
 
         if user:
-            # Если пользователь найден, сохраняем его в сессии и перенаправляем на профиль
+            # если пользователь найден, сохраняем его в сессии и перенаправляем на профиль
             session['username'] = username
             return redirect(url_for('auth.profile'))
         else:
-            # Остаемся на странице логина, если пользователь не найден
             return render_template('login.html', error="Неверное имя пользователя или пароль")
 
     return render_template('login.html')
@@ -33,11 +32,11 @@ def login():
 
 @auth_bp.route('/profile')
 def profile():
-    # Проверяем, вошел ли пользователь
+    # проверяем, вошел ли пользователь
     if 'username' not in session:
         return redirect(url_for('auth.login'))
     
-    # Показываем профиль пользователя
+    # показываем профиль пользователя
     username = session['username']
     return render_template('profile.html', username=username)
 
@@ -48,7 +47,7 @@ def signup():
         username = request.form['username']
         password = request.form['password']
 
-        # Подключение к базе данных и добавление пользователя
+        # подключение к базе данных и добавление пользователя
         conn = get_db_connection()
         conn.execute('INSERT INTO users (login, password) VALUES (?, ?)', (username, password))
         conn.commit()
@@ -60,6 +59,6 @@ def signup():
 
 @auth_bp.route('/logout')
 def logout():
-    # Удаляем пользователя из сессии
+    # удаляем пользователя из сессии
     session.pop('username', None)
     return redirect(url_for('auth.login'))
