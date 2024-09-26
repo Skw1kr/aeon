@@ -1,5 +1,5 @@
 from flask import render_template
-from app import app  # Импортируем приложение после его создания
+from app import app  
 
 @app.route('/')
 def index():
