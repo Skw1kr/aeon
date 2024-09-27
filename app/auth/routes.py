@@ -21,25 +21,16 @@ def login():
         conn.close()
 
         if user:
-<<<<<<< HEAD
             session['user_id'] = user['login']  # Сохранение логина пользователя в сессии
             return redirect(url_for('auth.profile'))  # Переадресация на страницу профиля
         else:
             flash('Неправильный логин или пароль')  # Сообщение об ошибке
             return redirect(url_for('auth.login'))
-=======
-            # если пользователь найден, сохраняем его в сессии и перенаправляем на профиль
-            session['username'] = username
-            return redirect(url_for('auth.profile'))
-        else:
-            return render_template('login.html', error="Неверное имя пользователя или пароль")
->>>>>>> b753163718b5dd0193cb99e0dd6db80888cdf887
 
     return render_template('login.html')
 
 @auth_bp.route('/profile')
 def profile():
-<<<<<<< HEAD
     # Проверяем, есть ли пользователь в сессии
     if 'user_id' not in session:
         return redirect(url_for('auth.login'))  # Переадресация на страницу логина, если пользователь не авторизован
@@ -47,7 +38,6 @@ def profile():
     # Отображаем страницу профиля
     return render_template('profile.html', user=session['user_id'])
 
-=======
     # проверяем, вошел ли пользователь
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -55,7 +45,6 @@ def profile():
     # показываем профиль пользователя
     username = session['username']
     return render_template('profile.html', username=username)
->>>>>>> b753163718b5dd0193cb99e0dd6db80888cdf887
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
