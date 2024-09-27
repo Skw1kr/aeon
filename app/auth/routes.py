@@ -12,34 +12,32 @@ def get_db_connection():
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        login = request.form['login']
         password = request.form['password']
 
         # Подключение к базе данных и проверка пользователя
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE login = ? AND password = ?', (username, password)).fetchone()
+        user = conn.execute('SELECT * FROM users WHERE login = ? AND password = ?', (login, password)).fetchone()
         conn.close()
 
         if user:
-            # Если пользователь найден, сохраняем его в сессии и перенаправляем на профиль
-            session['username'] = username
-            return redirect(url_for('auth.profile'))
+            session['user_id'] = user['login']  # Сохранение логина пользователя в сессии
+            return redirect(url_for('auth.profile'))  # Переадресация на страницу профиля
         else:
-            # Остаемся на странице логина, если пользователь не найден
-            return render_template('login.html', error="Неверное имя пользователя или пароль")
+            flash('Неправильный логин или пароль')  # Сообщение об ошибке
+            return redirect(url_for('auth.login'))
 
     return render_template('login.html')
 
-
 @auth_bp.route('/profile')
 def profile():
-    # Проверяем, вошел ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('auth.login'))
+    # Проверяем, есть ли пользователь в сессии
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))  # Переадресация на страницу логина, если пользователь не авторизован
     
-    # Показываем профиль пользователя
-    username = session['username']
-    return render_template('profile.html', username=username)
+    # Отображаем страницу профиля
+    return render_template('profile.html', user=session['user_id'])
+
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
