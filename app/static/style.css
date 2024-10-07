@@ -1,21 +1,50 @@
+/* Устанавливаем фоновое изображение на весь экран */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-}
-
-h1 {
+    background-image: url('http://localhost:5000/static/images/phonereg.jpg'); /* Путь к твоему изображению */
+    background-size: cover; /* Растянуть изображение на весь экран */
+    background-position: center; /* Центрируем изображение */
+    height: 100vh; /* Высота 100% от окна браузера */
+ }
+/* Центрируем заголовок */
+h2 {
     color: #333;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-a {
-    margin-right: 15px;
-}
-
+/* Стили формы */
 form {
     display: flex;
     flex-direction: column;
     max-width: 300px;
     margin: 0 auto;
+    background-color: white; /* Белый фон для формы */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+/* Поля ввода */
+form input {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Кнопка */
+form button {
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #555;
 }
