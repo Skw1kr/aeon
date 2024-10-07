@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 
 auth_bp = Blueprint('auth', __name__)
 
-# Подключение к базе данных
+# подключение к базе данных
 def get_db_connection():
     conn = sqlite3.connect('fckdtbs.db')
     conn.row_factory = sqlite3.Row
@@ -31,11 +31,11 @@ def login():
 
 @auth_bp.route('/profile')
 def profile():
-    # Проверяем, есть ли пользователь в сессии
+    # проверяем, есть ли пользователь в сессии
     if 'user_id' not in session:
         return redirect(url_for('auth.login'))  # Переадресация на страницу логина, если пользователь не авторизован
     
-    # Отображаем страницу профиля
+    # отображаем страницу профиля
     return render_template('profile.html', user=session['user_id'])
 
     # проверяем, вошел ли пользователь
